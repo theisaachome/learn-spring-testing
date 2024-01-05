@@ -73,5 +73,20 @@ class EmployeeRepoTest {
      }
 
 
-
+ // JUnit test for get Employee by email operation
+     @Test
+     public  void givenEmail_whenFindByEmail_thenReturnEmployeeObject(){
+         // given -> precondition or setup
+         var emp1 = Employee.builder()
+                 .firstName("isaac")
+                 .lastName("home")
+                 .mail("isaachome@gmail.com")
+                 .build();
+         employeeRepo.save(emp1);
+         // when -> action or the behaviour that we are going to test
+        var employeeDB= employeeRepo.findByMail(emp1.getMail()).get();
+         // then -> verify the output...
+         assertThat(employeeDB).isNotNull();
+         assertThat(employeeDB.getMail()).isEqualTo("isaachome@gmail.com");
+     }
 }
