@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 class EmployeeRepoTest {
@@ -56,7 +57,7 @@ class EmployeeRepoTest {
         assertThat(employees).isNotNull();
         assertThat(employees.size()).isEqualTo(2);
     }
- // JUnit test for getEmployee By ID operation..
+ // JUnit test for getEmployee By ID operation
      @Test
      public  void givenId_whenFindByEmployeeID_thenEmployee(){
          // given -> precondition or setup
@@ -88,5 +89,44 @@ class EmployeeRepoTest {
          // then -> verify the output...
          assertThat(employeeDB).isNotNull();
          assertThat(employeeDB.getMail()).isEqualTo("isaachome@gmail.com");
+     }
+      // JUnit test for update Employee Operation
+    @DisplayName("JUnit test for update Employee Operation")
+          @Test
+          public  void givenEmployeeObject_whenUpdatedEmployee_thenReturnUpdatedEmployee(){
+              // given -> precondition or setup
+              var employee = Employee.builder()
+                      .firstName("isaac")
+                      .lastName("home")
+                      .mail("isaachome@gmail.com")
+                      .build();
+              employeeRepo.save(employee);
+              // when -> action or the behaviour that we are going to test
+              Employee savedEmp = employeeRepo.findById(employee.getId()).get();
+              savedEmp.setMail("mercy@gmail.com");
+              savedEmp.setFirstName("mercy");
+              Employee updateEmp = employeeRepo.save(savedEmp);
+              // then -> verify the output...
+              assertThat(updateEmp.getMail()).isEqualTo("mercy@gmail.com");
+              assertThat(updateEmp.getFirstName()).isEqualTo("mercy");
+          }
+
+     // JUnit test for delete operation
+    @DisplayName("JUnit test for delete operation")
+     @Test
+     public  void givenEmployeeObject_whenDeleteEmployeeById_thenReturnNull(){
+         // given -> precondition or setup
+        var employee = Employee.builder()
+                .firstName("isaac")
+                .lastName("home")
+                .mail("isaachome@gmail.com")
+                .build();
+        employeeRepo.save(employee);
+         // when -> action or the behaviour that we are going to test
+        employeeRepo.delete(employee);
+        Optional<Employee> optionalEmployee = employeeRepo.findById(employee.getId());
+
+         // then -> verify the output...
+        assertThat(optionalEmployee).isEmpty();
      }
 }
