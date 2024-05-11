@@ -4,6 +4,7 @@ import com.isaachome.model.Employee;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,17 @@ class EmployeeRepoTest {
     @Autowired
     private EmployeeRepo employeeRepo;
 
+    private Employee employee;
+
+    @BeforeEach
+    public void setEmployee() {
+        this.employee = Employee.builder()
+                .firstName("isaac")
+                .lastName("home")
+                .mail("isaachome@gmail.com")
+                .build();
+    }
+
     // Junit test for save Employee operation
     // public void given_When_then(){
     //   given  => pre-condition or setup
@@ -26,12 +38,6 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
         // given -> precondition or setup
-        var employee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-
         // when -> action or the behaviour that we are going to test
         var savedEmployee = employeeRepo.save(employee);
 
@@ -68,14 +74,9 @@ class EmployeeRepoTest {
     @Test
     public void givenId_whenFindByEmployeeID_thenEmployee() {
         // given -> precondition or setup
-        var emp1 = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(emp1);
+        employeeRepo.save(employee);
         // when -> action or the behaviour that we are going to test
-        Employee savedEmp = employeeRepo.findById(emp1.getId()).get();
+        Employee savedEmp = employeeRepo.findById(employee.getId()).get();
         // then -> verify the output...
         assertThat(savedEmp).isNotNull();
     }
@@ -85,14 +86,9 @@ class EmployeeRepoTest {
     @Test
     public void givenEmail_whenFindByEmail_thenReturnEmployeeObject() {
         // given -> precondition or setup
-        var emp1 = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(emp1);
+        employeeRepo.save(employee);
         // when -> action or the behaviour that we are going to test
-        var employeeDB = employeeRepo.findByMail(emp1.getMail()).get();
+        var employeeDB = employeeRepo.findByMail(employee.getMail()).get();
         // then -> verify the output...
         assertThat(employeeDB).isNotNull();
         assertThat(employeeDB.getMail()).isEqualTo("isaachome@gmail.com");
@@ -103,11 +99,6 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeObject_whenUpdatedEmployee_thenReturnUpdatedEmployee() {
         // given -> precondition or setup
-        var employee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
         employeeRepo.save(employee);
         // when -> action or the behaviour that we are going to test
         Employee savedEmp = employeeRepo.findById(employee.getId()).get();
@@ -124,11 +115,6 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeObject_whenDeleteEmployeeById_thenReturnNull() {
         // given -> precondition or setup
-        var employee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
         employeeRepo.save(employee);
         // when -> action or the behaviour that we are going to test
         employeeRepo.delete(employee);
@@ -143,12 +129,7 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeNames_whenFindByJPQL_thenEmployeeObject() {
         // given -> precondition or setup
-        var newEmployee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(newEmployee);
+        employeeRepo.save(employee);
         String firstName = "isaac";
         String lastName = "home";
         // when -> action or the behaviour that we are going to test
@@ -162,12 +143,7 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeNames_whenFindByNamedParam_thenEmployeeObject() {
         // given -> precondition or setup
-        var newEmployee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(newEmployee);
+        employeeRepo.save(employee);
         String firstName = "isaac";
         String lastName = "home";
         // when -> action or the behaviour that we are going to test
@@ -180,12 +156,7 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeNames_whenFindByNativeSQL_thenEmployeeObject() {
         // given -> precondition or setup
-        var newEmployee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(newEmployee);
+        employeeRepo.save(employee);
         String firstName = "isaac";
         String lastName = "home";
         // when -> action or the behaviour that we are going to test
@@ -198,12 +169,7 @@ class EmployeeRepoTest {
     @Test
     public void givenEmployeeNames_whenFindByNativeQueryWithNamedParams_thenEmployeeObject() {
         // given -> precondition or setup
-        var newEmployee = Employee.builder()
-                .firstName("isaac")
-                .lastName("home")
-                .mail("isaachome@gmail.com")
-                .build();
-        employeeRepo.save(newEmployee);
+        employeeRepo.save(employee);
         String firstName = "isaac";
         String lastName = "home";
         // when -> action or the behaviour that we are going to test
