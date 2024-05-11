@@ -14,6 +14,10 @@ class EmployeeRepoTest {
     private EmployeeRepo employeeRepo;
 
     // Junit test for save Employee operation
+    // public void given_When_then(){
+    //   given  => pre-condition or setup
+    //   When => Action or the behaviour that we are going test
+    // }
     @DisplayName("Junit test for save Employee operation")
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee(){
@@ -126,5 +130,23 @@ class EmployeeRepoTest {
 
          // then -> verify the output...
         assertThat(optionalEmployee).isEmpty();
+     }
+      // JUnit test for custom query using JPQL  with index
+    @DisplayName("Junit Test for findByJPQL")
+      @Test
+      public  void givenEmployeeNames_whenFindByJPQL_thenEmployeeObject(){
+              // given -> precondition or setup
+             var newEmployee =Employee.builder()
+                     .firstName("isaac")
+                     .lastName("home")
+                     .mail("isaachome@gmail.com")
+                     .build();
+              employeeRepo.save(newEmployee);
+              String firstName="isaac";
+              String lastName = "home";
+              // when -> action or the behaviour that we are going to test
+             var emp = employeeRepo.findByJPQL(firstName,lastName);
+              // then -> verify the output...
+          assertThat(emp).isNotNull();
      }
 }
