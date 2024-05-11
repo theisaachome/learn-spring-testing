@@ -194,4 +194,22 @@ class EmployeeRepoTest {
         assertThat(emp).isNotNull();
     }
 
+    @DisplayName("Junit Test for findByNativeSQL with Named Param")
+    @Test
+    public void givenEmployeeNames_whenFindByNativeQueryWithNamedParams_thenEmployeeObject() {
+        // given -> precondition or setup
+        var newEmployee = Employee.builder()
+                .firstName("isaac")
+                .lastName("home")
+                .mail("isaachome@gmail.com")
+                .build();
+        employeeRepo.save(newEmployee);
+        String firstName = "isaac";
+        String lastName = "home";
+        // when -> action or the behaviour that we are going to test
+        var emp = employeeRepo.findByNativeQueryWithNamedParams(firstName, lastName);
+        // then -> verify the output...
+        assertThat(emp).isNotNull();
+    }
+
 }
