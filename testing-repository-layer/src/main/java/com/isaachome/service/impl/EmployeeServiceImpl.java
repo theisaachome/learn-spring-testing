@@ -29,6 +29,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
-        return List.of();
+        return employeeRepo.findAll();
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return  employeeRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Employee found with given ID : " + id));
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee, Long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+
     }
 }
